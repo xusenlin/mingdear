@@ -1,0 +1,60 @@
+{include file="meta" /}
+    <title>意见反馈</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 评论管理 <span class="c-gray en">&gt;</span> 评论列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="r">共有数据：<strong>{$list->total()}</strong> 条</span> </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="60">ID</th>
+                <th>评论内容</th>
+                <th width="60">帖子ID</th>
+                <th width="60">用户ID</th>
+                <th width="160">时间</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="comment"}
+            <tr class="text-c">
+                <td>{$comment.id}</td>
+                <td>{$comment.content}</td>
+                <td>{$comment.post_id}</td>
+                <td>{$comment.user_id}</td>
+                <td>{$comment.created_on}</td>
+                <td class="td-manage"><a title="删除" href="javascript:;" onclick="member_del(this,{$comment.id})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+        <div class="dataTables_paginate">
+            {$list->render()}
+        </div>
+    </div>
+</div>
+{include file="footer" /}
+<script type="text/javascript">
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+
+            $.post('/api/admin/comment_delete/',{id:id},function (data) {
+                console.log(data);
+                if(!(data.success)){
+                    layer.msg(data.msg);
+                    return ;
+                }else {
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    $(obj).parents("tr").remove();
+                }
+            }, "json");
+
+        });
+    }
+</script>
+</body>
+</html>

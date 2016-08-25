@@ -1,0 +1,38 @@
+{include file="meta" /}
+<title>资讯列表</title>
+</head>
+<body>
+<div class="panel panel-primary">
+    <div class="panel-header">相册内容</div>
+    <div class="panel-body">
+
+        {$content}
+
+    </div>
+    <div class="panel-header">相册</div>
+    <div class="panel-body" id="cfigure">
+
+    </div>
+</div>
+{include file="footer" /}
+<script type="text/javascript" src="/lib/cfigure/CFigure.js"></script>
+<script>
+
+    CFigure.config({
+        "id":"cfigure", //你的容器id
+        "with":1170, //轮播图宽
+        "height":500,
+        "time":2000,  //自动切换间隔时间，可缺省。
+        "img":{
+
+            {volist name="file" id="user"}
+            "{$user.filename}":["{$user.filepath}","#"],
+            {/volist}
+
+
+        }  //这里是你的图片参数，分别是图片描述，路径和点击图片跳转的连接。
+    });
+    CFigure.init();  //初始化。
+</script>
+</body>
+</html>
